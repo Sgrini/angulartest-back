@@ -112,7 +112,7 @@ app.put("/cours/:id", interceptor, (requete, resultat) => {
 app.post("/cours", interceptor, (requete, resultat) => {
   const cours = requete.body;
 
-  if (requete.user.role != "vendeur" && requete.user.role != "administrateur") {
+  if (requete.user.role != "profs" && requete.user.role != "administration") {
     return resultat.sendStatus(403);
   }
 
@@ -170,11 +170,10 @@ app.delete("/cours/:id", interceptor, (requete, resultat) => {
 
       //on vérifie si l'utilisateur connecté est le propriétaire
       const estProprietaire =
-        requete.user.role == "vendeur" &&
+        requete.user.role == "profs" &&
         requete.user.id == lignes[0].id_createur;
-
       //si il n'est ni propriétaire du cours, ni administrateur
-      if (!estProprietaire && requete.user.role != "administrateur") {
+      if (!estProprietaire && requete.user.role != "administration") {
         return resultat.sendStatus(403);
       }
 
